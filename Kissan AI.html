@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kissan</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fbf4dc;--card:#fffdf4;--ink:#2b2a1a;--mute:#6f6a4c;--g1:#3b7d23;--g2:#27591a;--g3:#e3efc3;--user:#f2dfa8;--line:#e2d6a6;--gold:#e0a21b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#16190e;--card:#20250f;--ink:#eef0d8;--mute:#aeb393;--g1:#8bc34a;--g2:#33691e;--g3:#2f3a17;--user:#4a4018;--line:#38401f}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#16190e;--card:#20250f;--ink:#eef0d8;--mute:#aeb393;--g1:#8bc34a;--g2:#33691e;--g3:#2f3a17;--user:#4a4018;--line:#38401f}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari","Mukta",system-ui,sans-serif;display:flex;flex-direction:column;font-size:16px;overflow:hidden}
+header{background:linear-gradient(180deg,#f6c453 0,#a9c93f 38%,#3b7d23 100%);color:#fff;padding:8px 14px 0;position:relative}
+.hr{display:flex;align-items:center;gap:10px}
+.t{flex:1;line-height:1.05;text-shadow:0 1px 2px rgba(0,0,0,.35)}.t b{font-size:26px;letter-spacing:1px;font-family:Georgia,serif}.t small{display:block;font-size:12px}
+.lang{display:flex;background:rgba(0,0,0,.25);border-radius:20px;padding:2px}
+.lang button{border:0;background:none;color:#fff;padding:6px 11px;border-radius:18px;font:inherit;font-size:14px}
+.lang button.on{background:#fff;color:var(--g2);font-weight:700}
+.ic{border:0;background:rgba(0,0,0,.25);color:#fff;border-radius:50%;width:38px;height:38px;font-size:18px}
+header svg.hill{display:block;width:calc(100% + 28px);margin:2px -14px 0;height:22px}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line)}
+nav button{flex:1;border:0;background:none;color:var(--mute);padding:9px 2px;font:inherit;font-size:13px;border-bottom:3px solid transparent}
+nav button.on{color:var(--g1);border-color:var(--gold);font-weight:700}
+.view{flex:1;display:none;flex-direction:column;min-height:0}.view.on{display:flex}
+.scroll{overflow-y:auto;padding:14px;flex:1}
+#panel{background:var(--card);border-bottom:1px solid var(--line);padding:10px 14px;display:none;gap:8px;flex-wrap:wrap}#panel.open{display:flex}
+#panel label{font-size:12px;color:var(--mute);display:flex;flex-direction:column;gap:2px;flex:1 1 90px}
+#panel select,#panel input{padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;width:100%}
+.row{display:flex;gap:8px;width:100%;flex-wrap:wrap;align-items:center}
+.pill{border:1px solid var(--g1);color:var(--g1);background:none;border-radius:18px;padding:7px 12px;font:inherit;font-size:14px}.pill.on{background:var(--g1);color:#fff}
+.tools{display:flex;gap:8px;padding:8px 14px 0}
+#chat{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:90%;padding:10px 13px;border-radius:16px;line-height:1.55;word-wrap:break-word}
+.m.u{align-self:flex-end;background:var(--user);border-bottom-right-radius:4px}
+.m.b{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+.m img{max-width:200px;border-radius:10px;display:block;margin-bottom:6px}.m ul{margin:4px 0;padding-left:20px}
+.spk{border:0;background:var(--g3);border-radius:14px;padding:3px 10px;font-size:14px;margin-top:4px}
+.hero{text-align:center;padding:10px 6px;color:var(--mute)}.hero h2{color:var(--g1);margin:6px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.chip{border:1px solid var(--g1);background:var(--g3);color:var(--ink);border-radius:16px;padding:7px 12px;font:inherit;font-size:14px;text-align:left}
+.fu{align-self:flex-start;max-width:95%}.fu small{color:var(--mute)}
+.bar{display:flex;gap:7px;padding:9px 10px;background:var(--card);border-top:1px solid var(--line);align-items:flex-end}
+.bar textarea{flex:1;min-width:0;resize:none;border:1px solid var(--line);border-radius:20px;padding:10px 14px;font:inherit;background:var(--bg);color:var(--ink);max-height:110px}
+.bar button,.bar label{border:0;border-radius:50%;width:42px;height:42px;font-size:19px;background:var(--g3);color:var(--ink);flex:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.bar .go{background:var(--g1);color:#fff}.bar .rec{background:#d32f2f;color:#fff;animation:p 1s infinite}
+@keyframes p{50%{opacity:.5}}
+#prev{display:none;padding:6px 14px;background:var(--card);font-size:13px;color:var(--mute)}#prev img{height:44px;border-radius:8px;vertical-align:middle;margin-right:8px}
+#st{font-size:12px;color:var(--mute);padding:0 14px 4px;background:var(--card);min-height:0}
+#sp{display:none;gap:8px;padding:6px 12px;background:var(--g3);border-top:1px solid var(--line);align-items:center;font-size:13px}#sp.on{display:flex}#sp span{flex:1}#sp button{border:0;border-radius:16px;padding:7px 14px;font:inherit;font-size:14px;background:var(--g1);color:#fff}#sp button+button{background:#d32f2f}
+.dots span{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--g1);animation:p 1s infinite}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.card h3{margin:0 0 4px;color:var(--g1);font-size:17px}.card p{margin:4px 0;line-height:1.5;font-size:15px}
+.mo{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.mo button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 2px;font:inherit;font-size:13px}.mo button.on{background:var(--g1);color:#fff;border-color:var(--g1)}
+#hist{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:5}#hist.open{display:block}
+#hist>div{background:var(--card);width:85%;max-width:360px;height:100%;padding:14px;overflow-y:auto;padding-top:calc(14px + env(safe-area-inset-top,0px))}
+.hi{display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--line)}.hi button:first-child{flex:1;text-align:left;border:0;background:none;color:var(--ink);font:inherit;padding:10px 2px;font-size:15px}
+.hi button+button{border:0;background:none;font-size:16px}
+.gh{font-size:12px;color:var(--g1);font-weight:700;margin:12px 0 2px}
+#gate{position:fixed;inset:0;z-index:20;background:linear-gradient(180deg,#f6c453,#a9c93f 45%,#3b7d23);display:flex;align-items:center;justify-content:center;padding:20px}#gate .gc{background:var(--card);border-radius:20px;padding:22px;width:100%;max-width:360px;text-align:center}#gate input{width:100%;padding:12px;font-size:20px;text-align:center;letter-spacing:3px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);margin:10px 0}#gate .big{width:100%;padding:12px;border:0;border-radius:24px;background:var(--g1);color:#fff;font:inherit;font-size:17px}#gotp{font-size:24px;font-weight:700;color:var(--g1);background:var(--g3);border-radius:12px;padding:10px;margin:8px 0;letter-spacing:4px}#gerr{color:#d32f2f;font-size:13px;min-height:18px}
+</style>
+</head>
+<body>
+<div id="gate"><div class="gc"><div style="font-size:46px">🌱</div><h2 style="font-family:Georgia,serif;color:var(--g1);margin:4px 0">Kissan AI</h2>
+<div style="display:flex;gap:8px;justify-content:center;margin:4px 0 8px"><button class="pill" id="gm">मराठी</button><button class="pill" id="gh">हिंदी</button></div>
+<h3 id="gt" style="margin:6px 0"></h3><p id="gs" style="color:var(--mute);margin:4px 0"></p>
+<div id="g1"><input id="gph" type="tel" inputmode="numeric" maxlength="10" placeholder="9876543210"><button class="big" id="gsend"></button></div>
+<div id="g2" style="display:none"><div id="gotp"></div><input id="gin" type="tel" inputmode="numeric" maxlength="4" placeholder="• • • •"><button class="big" id="gok"></button><button class="pill" id="gback" style="margin-top:10px"></button></div>
+<div id="gerr"></div></div></div>
+<header>
+  <div class="hr">
+    <svg width="46" height="46" viewBox="0 0 64 64" aria-label="Kissan logo"><circle cx="32" cy="32" r="30" fill="#fffdf4"/><circle cx="46" cy="16" r="7" fill="#f6c453"/><path d="M6 46c9-7 19-7 26-2 7-5 17-5 26 2v12H6z" fill="#8a5a2b"/><path d="M12 50h40M12 55h40" stroke="#b9854a" stroke-width="1.5"/><path d="M32 46V28" stroke="#27591a" stroke-width="3" stroke-linecap="round"/><path d="M32 31C32 21 24 15 13 16c0 10 8 16 19 15z" fill="#3b7d23"/><path d="M32 27c0-9 7-15 18-14 0 9-8 15-18 14z" fill="#8bc34a"/></svg>
+    <div class="t"><b>Kissan</b><small id="tag"></small></div>
+    <div class="lang"><button id="lm" class="on">मराठी</button><button id="lh">हिंदी</button></div>
+    <button class="ic" id="tg">⚙️</button>
+  </div>
+  <svg class="hill" viewBox="0 0 400 22" preserveAspectRatio="none"><path d="M0 22V12C60 0 110 4 170 12s120 2 230-8v18z" fill="var(--bg)"/></svg>
+</header>
+<div id="panel">
+  <div class="row"><label><span id="l_soil"></span><select id="soil"></select></label><label><span id="l_loc"></span><input id="loc"></label></div>
+  <div class="row"><label>🌡️ °C<input id="temp" type="number" inputmode="decimal"></label><label>💧 %<input id="hum" type="number" inputmode="decimal"></label><label>💨 km/h<input id="wind" type="number" inputmode="decimal"></label></div>
+  <div class="row"><button class="pill" id="gps"></button><button class="pill" id="ntf"></button><button class="pill on" id="vo"></button></div>
+  <div id="note" style="font-size:12px;color:var(--mute);width:100%"></div>
+</div>
+<nav><button data-v="c" class="on" id="n_c"></button><button data-v="k" id="n_k"></button><button data-v="s" id="n_s"></button><button data-v="a" id="n_a"></button></nav>
+
+<section class="view on" id="v_c">
+  <div class="tools"><button class="pill" id="nw"></button><button class="pill" id="hb"></button></div>
+  <div id="chat"></div><div id="prev"></div><div id="sp"><span id="spl">🔊</span><button id="spp"></button><button id="sps"></button></div><div id="st"></div>
+  <div class="bar">
+    <label title="Camera">📷<input type="file" id="f1" accept="image/*" capture="environment" hidden></label>
+    <label title="Gallery">🖼️<input type="file" id="f2" accept="image/*" hidden></label>
+    <button id="mic">🎤</button><textarea id="in" rows="1"></textarea><button class="go" id="send">➤</button>
+  </div>
+</section>
+<section class="view" id="v_k"><div class="scroll"><div class="mo" id="mo"></div><div id="kc"></div></div></section>
+<section class="view" id="v_s"><div class="scroll" id="sc"></div></section>
+<section class="view" id="v_a"><div class="scroll" id="ab"></div></section>
+<div id="hist"><div id="hl"></div></div>
+
+<script>
+const MAIL="offgrid.official0101@gmail.com",FOUNDER="Om Pandurang Deshmane";
+const L={
+mr:{tag:"शेतकऱ्यांचा AI मित्र",soil:"मातीचा प्रकार",loc:"ठिकाण",gps:"📍 माझे ठिकाण",ntf:"🔔 सूचना",vo:"🔊 आवाजात उत्तर",ph:"येथे लिहा किंवा 🎤 दाबा...",
+tabs:["💬 चॅट","📅 पीक कॅलेंडर","🏛️ योजना","ℹ️ माहिती"],nw:"➕ नवीन चॅट",hb:"🕘 जुने चॅट",
+hi:"नमस्कार शेतकरी मित्र! 🌾",sub:"पीक, खत, फवारणी, बाजारभाव, रोग – काहीही विचारा.",
+soils:["निवडा","काळी (रेगूर)","लाल","गाळाची","चिकणमाती","वालुकामय","पोयटा"],
+chips:["माझ्या मातीसाठी कोणते पीक घ्यावे?","सेंद्रिय खत कसे बनवावे?","आज फवारणी करावी का?","टोमॅटोची काळजी कशी घ्यावी?","आजचे बाजारभाव काय आहेत?"],
+fu:"पुढील प्रश्न:",wait:"विचार करत आहे…",err:"माफ करा, उत्तर मिळाले नाही. पुन्हा प्रयत्न करा.",
+loc_ok:"ठिकाण मिळाले ✅",loc_no:"ठिकाण मिळाले नाही – कृपया हाताने लिहा.",
+nn:"टीप: लाइव्ह हवामान/बाजारभाव येथे थेट येत नाहीत; तापमान/आर्द्रता/वारा टाकल्यास सल्ला अधिक अचूक. सूचना अॅप उघडे असताना सकाळी ७ वा. येतात.",
+nton:"सूचना चालू ✅",ntoff:"सूचना परवानगी नाकारली.",tip:"आजची शेती टीप",
+nov:"या अॅप/ब्राउझरमध्ये माइक चालत नाही. Chrome मध्ये ही लिंक उघडा, किंवा कीबोर्डवरील 🎤 वापरा.",lis:"ऐकत आहे… बोला",
+mh:"महिना निवडा – या महिन्यात घेण्याजोगी पिके",ask:"🤖 AI ला विचारा",sh:"महिन्यानुसार पिके",
+cn:"टीप: भाग, पाऊस आणि पाण्यानुसार वेळ बदलते. स्थानिक कृषी सहाय्यक / KVK चा सल्ला घ्या.",
+sa:"योजना व अर्ज कसा करावा",sn:"अर्जाची अंतिम तारीख व अटी अधिकृत वेबसाइटवर किंवा कृषी कार्यालयात तपासा.",
+how:"अर्ज कसा करावा",ben:"लाभ",
+ab:"Kissan हा शेतकऱ्यांसाठी बनवलेला AI मित्र आहे – पीक, खत, फवारणी, रोग, बाजारभाव आणि सरकारी योजनांची माहिती मराठी/हिंदीत.",
+fd:"संस्थापक",sp:"ग्राहक सेवा",spd:"प्रश्न किंवा अडचण असल्यास ईमेल करा:",cp:"ईमेल कॉपी करा",cd:"कॉपी झाले ✅",
+hs:"जुने चॅट",hn:"अजून चॅट नाहीत",g:["आज","या आठवड्यात","जुने"],nt:"नवीन चॅट",
+mo:["जाने","फेब्रु","मार्च","एप्रिल","मे","जून","जुलै","ऑगस्ट","सप्टें","ऑक्टो","नोव्हें","डिसें"],
+cal:["उन्हाळी भुईमूग, मका, कांदा (लावणी), भेंडी, गवार, वांगी, कलिंगड-खरबूज, सुरू ऊस (जानेवारीअखेर)","उन्हाळी मूग-उडीद, भेंडी, काकडी, कलिंगड, चारा मका, सुरू ऊस","चारा ज्वारी/मका, भेंडी, दुधीभोपळा, कारले, दोडका, उन्हाळी भाजीपाला","खोल नांगरट, शेणखत टाका, ताग/धैंचा (हिरवळीचे खत), भाजीपाला रोपवाटिका, माती तपासणी","पूर्वमोसमी कापूस (बागायती), हळद, आले, ताग; खरिपाची तयारी, बियाणे-खत खरेदी","खरीप पेरणी (पुरेसा पाऊस झाल्यावर): सोयाबीन, तूर, मूग, उडीद, बाजरी, कापूस, मका; भात रोपवाटिका","भात लावणी, सोयाबीन, तूर, भुईमूग, नाचणी, टोमॅटो रोपे, आडसाली ऊस, तणनियंत्रण","आडसाली ऊस, कोबी-फुलकोबी रोपे, चवळी, मेथी-कोथिंबीर, खरीप कांदा रोपवाटिका","रब्बी तयारी, कांदा रोपवाटिका, पालेभाज्या, वाटाणा, टोमॅटो, भाजीपाला; खरीप पिकांचे पीक संरक्षण","रब्बी ज्वारी, हरभरा, करडई, सूर्यफूल, मोहरी, लसूण, वाटाणा, पूर्वहंगामी ऊस; गहू (ऑक्टो-अखेर)","गहू (वेळेवर पेरणी), हरभरा, कांदा लावणी, बटाटा, मोहरी, पालेभाज्या, फुलकोबी","उशिरा गहू (१५ डिसेंबरपर्यंत), कांदा लावणी, पालक, मेथी, कोथिंबीर, मुळा, गाजर, हरभरा (पाणी व्यवस्थापन)"],
+S:[["PM-किसान सन्मान निधी","वर्षाला ₹6,000 (३ हप्ते, प्रत्येकी ₹2,000) थेट बँक खात्यात.","pmkisan.gov.in → Farmer Corner → New Farmer Registration. आधार, ७/१२, बँक पासबुक, मोबाइल लागतो. CSC केंद्र / तलाठी / कृषी सहाय्यकाकडूनही करता येते. e-KYC अवश्य करा."],
+["नमो शेतकरी महासन्मान निधी (महाराष्ट्र)","PM-किसान लाभार्थ्यांना राज्य सरकारकडून वर्षाला अतिरिक्त ₹6,000.","साधारणपणे वेगळा अर्ज नसतो; PM-किसान मंजूर, आधार-बँक जोडणी व e-KYC पूर्ण असल्यास लाभ मिळतो. स्थितीसाठी कृषी कार्यालयात विचारा."],
+["पीक विमा योजना (PMFBY)","दुष्काळ, अतिवृष्टी, रोग-कीड यामुळे नुकसान झाल्यास भरपाई. शेतकरी हप्ता: खरीप २%, रब्बी १.५%, नगदी/फळपिके ५%.","pmfby.gov.in वर, बँकेत किंवा CSC वर अर्ज. पेरा, आधार, बँक, ७/१२ लागतो. अंतिम तारीख चुकवू नका (खरीप साधारण जुलैअखेर). नुकसान झाल्यास ७२ तासांत कळवा."],
+["किसान क्रेडिट कार्ड (KCC)","पीक कर्ज कमी व्याजदरात (₹3 लाखांपर्यंत व्याज सवलत), वेळेवर परतफेडीवर अधिक सवलत.","जवळच्या बँकेत/सहकारी बँकेत आधार, ७/१२, फोटो, बँक पासबुक घेऊन अर्ज. pmkisan.gov.in वरही KCC फॉर्म आहे."],
+["सॉइल हेल्थ कार्ड","मोफत माती तपासणी + खत शिफारस; अनावश्यक खतखर्च कमी.","soilhealth.dac.gov.in किंवा तालुका कृषी कार्यालयात माती नमुना द्या (शेतातील ६-८ ठिकाणांची माती मिसळून)."],
+["महाडीबीटी (महाराष्ट्र)","ठिबक/तुषार सिंचन, ट्रॅक्टर, अवजारे, शेडनेट इ. वर अनुदान.","mahadbt.maharashtra.gov.in → शेतकरी योजना → नोंदणी (आधार OTP) → योजना निवडून अर्ज → निवड झाल्यावर कागदपत्रे अपलोड."],
+["PM-कुसुम (सौर पंप)","सौर कृषी पंपासाठी मोठे अनुदान; वीजबिल मुक्ती.","pmkusum.mnre.gov.in किंवा राज्याच्या वीज/ऊर्जा विभाग पोर्टलवर (महाराष्ट्रात MSEDCL) अर्ज."],
+["e-NAM (ऑनलाइन मंडी)","देशभरातील खरेदीदारांना शेतमाल विकून चांगला भाव.","enam.gov.in → Farmer Registration. आधार, बँक, मोबाइल; जवळच्या e-NAM बाजार समितीत नोंदणी."]],
+sys:"Marathi (मराठी)"},
+hi:{tag:"किसानों का AI साथी",soil:"मिट्टी का प्रकार",loc:"स्थान",gps:"📍 मेरी लोकेशन",ntf:"🔔 सूचनाएँ",vo:"🔊 आवाज़ में जवाब",ph:"यहाँ लिखें या 🎤 दबाएँ...",
+tabs:["💬 चैट","📅 फसल कैलेंडर","🏛️ योजनाएँ","ℹ️ जानकारी"],nw:"➕ नई चैट",hb:"🕘 पुरानी चैट",
+hi:"नमस्ते किसान भाई! 🌾",sub:"फसल, खाद, छिड़काव, मंडी भाव, रोग – कुछ भी पूछें।",
+soils:["चुनें","काली (रेगुर)","लाल","जलोढ़","चिकनी","रेतीली","दोमट"],
+chips:["मेरी मिट्टी में कौन सी फसल लगाऊँ?","जैविक खाद कैसे बनाएँ?","आज छिड़काव करना चाहिए?","टमाटर की देखभाल कैसे करें?","आज के मंडी भाव क्या हैं?"],
+fu:"आगे पूछें:",wait:"सोच रहा हूँ…",err:"माफ़ कीजिए, जवाब नहीं मिला। फिर कोशिश करें।",
+loc_ok:"लोकेशन मिल गई ✅",loc_no:"लोकेशन नहीं मिली – कृपया हाथ से लिखें।",
+nn:"नोट: लाइव मौसम/मंडी भाव यहाँ सीधे नहीं आते; तापमान/नमी/हवा भरेंगे तो सलाह ज़्यादा सटीक होगी। सूचनाएँ ऐप खुला होने पर सुबह 7 बजे आती हैं।",
+nton:"सूचनाएँ चालू ✅",ntoff:"सूचना की अनुमति नहीं मिली।",tip:"आज की खेती टिप",
+nov:"इस ऐप/ब्राउज़र में माइक नहीं चलता। यह लिंक Chrome में खोलें, या कीबोर्ड का 🎤 इस्तेमाल करें।",lis:"सुन रहा हूँ… बोलिए",
+mh:"महीना चुनें – इस महीने लगाने लायक फसलें",ask:"🤖 AI से पूछें",sh:"महीने के अनुसार फसलें",
+cn:"नोट: क्षेत्र, बारिश और पानी के अनुसार समय बदलता है। स्थानीय कृषि अधिकारी / KVK से सलाह लें।",
+sa:"योजनाएँ और आवेदन कैसे करें",sn:"आवेदन की अंतिम तिथि व शर्तें आधिकारिक वेबसाइट या कृषि कार्यालय में जाँचें।",
+how:"आवेदन कैसे करें",ben:"लाभ",
+ab:"Kissan किसानों के लिए बना AI साथी है – फसल, खाद, छिड़काव, रोग, मंडी भाव और सरकारी योजनाओं की जानकारी मराठी/हिंदी में।",
+fd:"संस्थापक",sp:"ग्राहक सहायता",spd:"सवाल या समस्या हो तो ईमेल करें:",cp:"ईमेल कॉपी करें",cd:"कॉपी हो गया ✅",
+hs:"पुरानी चैट",hn:"अभी कोई चैट नहीं",g:["आज","इस हफ़्ते","पुरानी"],nt:"नई चैट",
+mo:["जन","फ़र","मार्च","अप्रैल","मई","जून","जुलाई","अग","सित","अक्टू","नवं","दिसं"],
+cal:["गर्मी की मूँगफली, मक्का, प्याज़ (रोपाई), भिंडी, ग्वार, बैंगन, तरबूज-खरबूज, गन्ना (बसंतकालीन)","गर्मी की मूँग-उड़द, भिंडी, खीरा, तरबूज, चारा मक्का, गन्ना","चारा ज्वार/मक्का, भिंडी, लौकी, करेला, तोरई, गर्मी की सब्ज़ियाँ","गहरी जुताई, गोबर खाद डालें, ढैंचा/सनई (हरी खाद), सब्ज़ी नर्सरी, मिट्टी जाँच","बागवानी कपास (सिंचित), हल्दी, अदरक; खरीफ की तैयारी, बीज-खाद ख़रीद","खरीफ बुवाई (पर्याप्त बारिश पर): सोयाबीन, अरहर, मूँग, उड़द, बाजरा, कपास, मक्का; धान नर्सरी","धान रोपाई, सोयाबीन, अरहर, मूँगफली, रागी, टमाटर पौध, गन्ना, खरपतवार नियंत्रण","गन्ना, गोभी-फूलगोभी पौध, लोबिया, मेथी-धनिया, खरीफ प्याज़ नर्सरी","रबी की तैयारी, प्याज़ नर्सरी, पत्तेदार सब्ज़ियाँ, मटर, टमाटर; खरीफ फसल सुरक्षा","रबी ज्वार, चना, कुसुम, सूरजमुखी, सरसों, लहसुन, मटर; गेहूँ (अक्टूबर अंत)","गेहूँ (समय पर), चना, प्याज़ रोपाई, आलू, सरसों, पत्तेदार सब्ज़ियाँ, फूलगोभी","पछेती गेहूँ (15 दिसंबर तक), प्याज़ रोपाई, पालक, मेथी, धनिया, मूली, गाजर, चना (सिंचाई प्रबंधन)"],
+S:[["PM-किसान सम्मान निधि","साल में ₹6,000 (3 किस्तें, ₹2,000 प्रत्येक) सीधे बैंक खाते में।","pmkisan.gov.in → Farmer Corner → New Farmer Registration। आधार, खसरा/खतौनी, बैंक पासबुक, मोबाइल चाहिए। CSC केंद्र / पटवारी / कृषि सहायक से भी हो सकता है। e-KYC ज़रूर करें।"],
+["नमो शेतकरी महासम्मान निधि (महाराष्ट्र)","PM-किसान लाभार्थियों को राज्य सरकार से साल में अतिरिक्त ₹6,000।","आम तौर पर अलग आवेदन नहीं; PM-किसान मंज़ूर, आधार-बैंक लिंक व e-KYC पूरा हो तो लाभ मिलता है। स्थिति के लिए कृषि कार्यालय में पूछें।"],
+["फसल बीमा योजना (PMFBY)","सूखा, अतिवृष्टि, रोग-कीट से नुकसान पर मुआवज़ा। किसान प्रीमियम: खरीफ 2%, रबी 1.5%, नकदी/बागवानी 5%।","pmfby.gov.in, बैंक या CSC पर आवेदन। बुवाई प्रमाण, आधार, बैंक, भूमि रिकॉर्ड चाहिए। अंतिम तिथि न चूकें (खरीफ आम तौर पर जुलाई अंत)। नुकसान होने पर 72 घंटे में सूचित करें।"],
+["किसान क्रेडिट कार्ड (KCC)","कम ब्याज पर फसल ऋण (₹3 लाख तक ब्याज छूट), समय पर चुकाने पर अधिक छूट।","नज़दीकी बैंक/सहकारी बैंक में आधार, भूमि रिकॉर्ड, फोटो, पासबुक के साथ आवेदन। pmkisan.gov.in पर भी KCC फ़ॉर्म है।"],
+["सॉइल हेल्थ कार्ड","मुफ़्त मिट्टी जाँच + खाद सिफ़ारिश; फ़ालतू खाद खर्च घटता है।","soilhealth.dac.gov.in या कृषि कार्यालय में मिट्टी का नमूना दें (खेत की 6-8 जगहों की मिट्टी मिलाकर)।"],
+["महाडीबीटी (महाराष्ट्र)","ड्रिप/स्प्रिंकलर, ट्रैक्टर, औज़ार, शेडनेट आदि पर अनुदान।","mahadbt.maharashtra.gov.in → शेतकरी योजना → पंजीकरण (आधार OTP) → योजना चुनकर आवेदन → चयन के बाद दस्तावेज़ अपलोड।"],
+["PM-कुसुम (सौर पंप)","सौर कृषि पंप पर भारी अनुदान; बिजली बिल से मुक्ति।","pmkusum.mnre.gov.in या अपने राज्य के ऊर्जा/बिजली विभाग पोर्टल पर आवेदन।"],
+["e-NAM (ऑनलाइन मंडी)","देशभर के ख़रीदारों को उपज बेचकर बेहतर भाव।","enam.gov.in → Farmer Registration। आधार, बैंक, मोबाइल; नज़दीकी e-NAM मंडी में पंजीकरण।"]],
+sys:"Hindi (हिन्दी)"}};
+let lg="mr",img=null,hist=[],busy=false,coords=null,viaVoice=false,cur=null,speakOn=true,sample=null;
+const $=i=>document.getElementById(i),chat=$("chat"),esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const T=()=>L[lg];
+function md(s){let h=esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").split("\n"),o="",ul=false;
+ for(const l of h){const m=l.match(/^\s*[-*•]\s+(.*)/);if(m){if(!ul){o+="<ul>";ul=true}o+="<li>"+m[1]+"</li>"}else{if(ul){o+="</ul>";ul=false}o+=l.replace(/^#+\s*/,"")+"<br>"}}return o+(ul?"</ul>":"")}
+/* storage */
+let K="kissan:chats";
+function load(){try{return JSON.parse(localStorage.getItem(K)||"[]")}catch(e){return[]}}
+function save(){try{if(!cur||!hist.length)return;let a=load().filter(c=>c.id!=cur.id);cur.m=hist;cur.ts=Date.now();a.unshift(cur);localStorage.setItem(K,JSON.stringify(a.slice(0,60)))}catch(e){}}
+function newChat(){cur={id:"c"+Date.now(),t:""};hist=[];img=null;$("prev").style.display="none";hero();show("c");$("hist").classList.remove("open")}
+function openHist(){const a=load(),d=Date.now(),g=[[],[],[]];a.forEach(c=>{const x=d-c.ts;g[x<864e5?0:x<6048e5?1:2].push(c)});
+ let h=`<h3 style="color:var(--g1);margin:0 0 6px">${T().hs}</h3>`;if(!a.length)h+=`<p style="color:var(--mute)">${T().hn}</p>`;
+ g.forEach((l,i)=>{if(l.length)h+=`<div class="gh">${T().g[i]}</div>`+l.map(c=>`<div class="hi"><button data-o="${c.id}">${esc(c.t||"…")}</button><button data-d="${c.id}">🗑️</button></div>`).join("")});
+ $("hl").innerHTML=h;$("hist").classList.add("open");
+ $("hl").querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{const c=load().find(x=>x.id==b.dataset.o);if(!c)return;cur={id:c.id,t:c.t};hist=c.m;chat.innerHTML="";hist.forEach(m=>add(m.role=="user"?"u":"b",m.role=="user"?esc(m.content):md(m.content)));$("hist").classList.remove("open");show("c")});
+ $("hl").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{try{localStorage.setItem(K,JSON.stringify(load().filter(x=>x.id!=b.dataset.d)))}catch(e){}openHist()})}
+$("hist").onclick=e=>{if(e.target.id=="hist")$("hist").classList.remove("open")};
+/* ui */
+function add(cls,html){const d=document.createElement("div");d.className="m "+cls;d.innerHTML=html;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
+function hero(){chat.innerHTML=`<div class="hero"><div style="font-size:44px">🌱</div><h2>${T().hi}</h2><div>${T().sub}</div><div class="chips" style="justify-content:center;margin-top:12px">${T().chips.map(c=>`<button class="chip">${c}</button>`).join("")}</div></div>`;
+ chat.querySelectorAll(".chip").forEach(b=>b.onclick=()=>ask(b.textContent))}
+function show(v){try{speechSynthesis.cancel()}catch(e){}spUI(false);document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id=="v_"+v));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==v))}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+let mon=new Date().getMonth();
+function kal(){$("mo").innerHTML=T().mo.map((m,i)=>`<button data-i="${i}" class="${i==mon?"on":""}">${m}</button>`).join("");
+ $("mo").querySelectorAll("button").forEach(b=>b.onclick=()=>{mon=+b.dataset.i;kal()});
+ $("kc").innerHTML=`<div class="card"><h3>📅 ${T().mo[mon]} – ${T().sh}</h3><p>${T().cal[mon]}</p><button class="pill" id="kq" style="margin-top:6px">${T().ask}</button></div><p style="font-size:12px;color:var(--mute)">${T().cn}</p>`;
+ $("kq").onclick=()=>{show("c");ask((lg=="mr"?`${T().mo[mon]} महिन्यात माझ्या शेतात कोणती पिके घ्यावी? पेरणी, खत आणि काळजी सांगा.`:`${T().mo[mon]} महीने में मेरे खेत में कौन सी फसलें लगाऊँ? बुवाई, खाद और देखभाल बताइए।`))}}
+function sch(){$("sc").innerHTML=`<h3 style="color:var(--g1);margin:0 0 8px">🏛️ ${T().sa}</h3>`+T().S.map((s,i)=>`<div class="card"><h3>${s[0]}</h3><p><b>${T().ben}:</b> ${s[1]}</p><p><b>${T().how}:</b> ${s[2]}</p><button class="pill" data-q="${i}">${T().ask}</button></div>`).join("")+`<p style="font-size:12px;color:var(--mute)">${T().sn}</p>`;
+ $("sc").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{show("c");ask((lg=="mr"?"मला ही योजना सविस्तर समजावा आणि अर्ज कसा करायचा ते सांगा: ":"इस योजना को विस्तार से समझाइए और आवेदन कैसे करें बताइए: ")+T().S[b.dataset.q][0])})}
+function about(){$("ab").innerHTML=`<div class="card" style="text-align:center"><div style="font-size:42px">🌾</div><h3 style="font-family:Georgia,serif;font-size:24px">Kissan</h3><p>${T().ab}</p></div>
+<div class="card"><h3>👤 ${T().fd}</h3><p style="font-size:17px"><b>${FOUNDER}</b></p></div>
+<div class="card"><h3>🛟 ${T().sp}</h3><p>${T().spd}</p><p><a href="mailto:${MAIL}" target="_top" style="color:var(--g1);font-weight:700">${MAIL}</a></p><button class="pill" id="cpm">${T().cp}</button></div>`;
+ {const b=document.createElement("button");b.className="pill";b.style.marginTop="8px";b.textContent="🚪 लॉगआउट / Logout +91 "+(getUser()||"");b.onclick=logout;$("ab").appendChild(b)}$("cpm").onclick=async()=>{try{await navigator.clipboard.writeText(MAIL)}catch(e){}$("cpm").textContent=T().cd}}
+function ui(){const t=T();document.documentElement.lang=lg;$("tag").textContent=t.tag;$("l_soil").textContent=t.soil;$("l_loc").textContent=t.loc;
+ $("gps").textContent=t.gps;$("ntf").textContent=t.ntf;$("vo").textContent=t.vo;$("in").placeholder=t.ph;$("note").textContent=t.nn;$("nw").textContent=t.nw;$("hb").textContent=t.hb;
+ t.tabs.forEach((x,i)=>$("n_"+"cksa"[i]).textContent=x);
+ const s=$("soil"),v=s.value;s.innerHTML=t.soils.map((x,i)=>`<option value="${i?x:""}">${x}</option>`).join("");s.value=t.soils.includes(v)?v:"";
+ $("lm").classList.toggle("on",lg=="mr");$("lh").classList.toggle("on",lg=="hi");kal();sch();about();if(!hist.length)hero()}
+/* chat */
+function ctx(){const p=[];if($("soil").value)p.push("Soil: "+$("soil").value);if($("loc").value)p.push("Location: "+$("loc").value);if(coords)p.push(`GPS: ${coords.lat.toFixed(3)}, ${coords.lon.toFixed(3)}`);
+ if($("temp").value)p.push("Temperature: "+$("temp").value+"°C");if($("hum").value)p.push("Humidity: "+$("hum").value+"%");if($("wind").value)p.push("Wind: "+$("wind").value+" km/h");
+ p.push("Today: "+new Date().toLocaleDateString("en-IN",{dateStyle:"full"}));return p.join("; ")}
+const SYS=()=>`You are Kissan, a friendly, practical AI farming advisor for Indian farmers (the app name is always written in English: "Kissan"). If asked who founded/made this app, say the founder is ${FOUNDER}. For customer support, give the email ${MAIL}. Reply ONLY in ${T().sys}, in simple village-friendly spoken words (your answer may be read aloud), short bullet points, few emojis. Cover as relevant: suitable crop for soil/season/month/weather, sowing time, growth duration & harvest time, fertilizer (chemical doses per acre AND natural/organic options like compost, vermicompost, jeevamrut, neem cake), spraying/pest & disease schedule (organic first), irrigation, fruit & vegetable care, market price (bajar bhav) as a typical APPROXIMATE RANGE (see MARKET RULE below), government schemes and how to apply (PM-Kisan, PMFBY, KCC, MahaDBT, Soil Health Card, PM-KUSUM, eNAM; tell to verify at official site/Krishi office), and AI/technology tips (photo diagnosis, soil testing, drip irrigation, weather apps, drones). If a photo is given, identify the crop, visible problem and treatment. Ask briefly for missing info if essential. MARKET RULE: whenever the farmer asks about bajar bhav / mandi price / rate of any crop, fruit or vegetable, ALWAYS answer with a typical approximate range from your knowledge, like 'साधारण ₹X – ₹Y प्रति क्विंटल' (and ₹/kg for fruits and vegetables), plus 1-2 lines on what makes the rate go up or down (season, quality, demand, mandi) and the best time to sell. If no crop is named, give ranges for 6-8 common crops of the current season (e.g. soybean, cotton, tur, onion, wheat, gram, tomato). Never refuse and never ask which crop first. Say once, briefly, that it is an estimate, not today's live rate, and the exact rate can be checked at the local mandi, eNAM or Agmarknet. Never invent weather. Mention PPE and label doses for chemicals. At the very end add one line exactly: FOLLOWUP: question1 | question2 | question3 (three short next questions the farmer may ask, same language).
+Farmer context: ${ctx()}`;
+/* speech out */
+function speak(text){try{const s=speechSynthesis;s.cancel();const u=new SpeechSynthesisUtterance(text.replace(/[*#_`]/g,"").replace(/[\u{1F300}-\u{1FAFF}\u2600-\u27BF]/gu,"").replace(/https?:\/\/\S+/g,""));
+ const code=lg=="mr"?"mr-IN":"hi-IN";u.lang=code;const vs=s.getVoices();const v=vs.find(x=>x.lang.replace("_","-")==code)||vs.find(x=>x.lang.startsWith(lg=="mr"?"mr":"hi"))||vs.find(x=>x.lang.startsWith("hi"));if(v)u.voice=v;u.rate=.92;u.onstart=()=>spUI(true);u.onend=u.onerror=()=>spUI(false);s.speak(u)}catch(e){}}
+let paused=false;
+function spUI(v){paused=false;$("sp").classList.toggle("on",v);if(v){$("spl").textContent="🔊 "+(lg=="mr"?"AI बोलत आहे…":"AI बोल रहा है…");$("spp").textContent=lg=="mr"?"⏸️ थांबवा":"⏸️ रोकें";$("sps").textContent=lg=="mr"?"⏹️ बंद":"⏹️ बंद"}}
+$("spp").onclick=()=>{try{if(paused){speechSynthesis.resume();paused=false;$("spp").textContent=lg=="mr"?"⏸️ थांबवा":"⏸️ रोकें"}else{speechSynthesis.pause();paused=true;$("spp").textContent=lg=="mr"?"▶️ सुरू करा":"▶️ चालू करें"}}catch(e){}};
+$("sps").onclick=()=>{try{speechSynthesis.cancel()}catch(e){}spUI(false)};
+async function ask(text){
+ text=(text||"").trim();if((!text&&!img)||busy)return;
+ if(!cur)cur={id:"c"+Date.now(),t:""};if(!hist.length)chat.innerHTML="";if(!cur.t)cur.t=(text||"📷").slice(0,40);
+ const f=img,vv=viaVoice;img=null;viaVoice=false;$("prev").style.display="none";$("in").value="";
+ add("u",(f?`<img src="${URL.createObjectURL(f)}">`:"")+esc(text||"📷"));
+ const b=add("b",`<span class="dots"><span></span><span></span><span></span></span> ${T().wait}`);busy=true;
+ try{
+  sample=sample||await claude.use("sample");if(!sample)throw 0;
+  const msgs=hist.slice(-8).concat([{role:"user",content:SYS()+"\n\nQuestion: "+(text||"Please analyse this photo.")}]);
+  const o={cache:false,onText:({text:t})=>{b.innerHTML=md(t.replace(/FOLLOWUP:[\s\S]*$/,""));chat.scrollTop=chat.scrollHeight}};
+  if(f){const lim=await sample.limits();if(lim&&lim.images)o.images=[f]}
+  const r=await sample(msgs,o);let ans=r.text,fu=[];
+  const m=ans.match(/FOLLOWUP:\s*([\s\S]*)$/);if(m){fu=m[1].split("|").map(s=>s.trim().replace(/^[-\d.\s]+/,"")).filter(Boolean).slice(0,3);ans=ans.slice(0,m.index).trim()}
+  b.innerHTML=md(ans);const sp=document.createElement("button");sp.className="spk";sp.textContent="🔊";sp.onclick=()=>speak(ans);b.appendChild(sp);
+  hist.push({role:"user",content:text||"(photo)"},{role:"assistant",content:ans});save();if(vv&&speakOn)speak(ans);
+  if(fu.length){const d=add("fu",`<small>${T().fu}</small><div class="chips">${fu.map(q=>`<button class="chip">${esc(q)}</button>`).join("")}</div>`);d.className="fu";d.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{d.remove();ask(c.textContent)})}
+ }catch(e){b.textContent=T().err}
+ busy=false;chat.scrollTop=chat.scrollHeight}
+$("send").onclick=()=>ask($("in").value);
+$("in").onkeydown=e=>{if(e.key=="Enter"&&!e.shiftKey){e.preventDefault();ask($("in").value)}};
+$("lm").onclick=()=>{lg="mr";ui()};$("lh").onclick=()=>{lg="hi";ui()};
+$("tg").onclick=()=>$("panel").classList.toggle("open");
+$("nw").onclick=newChat;$("hb").onclick=openHist;
+$("vo").onclick=()=>{speakOn=!speakOn;$("vo").classList.toggle("on",speakOn);if(!speakOn)try{speechSynthesis.cancel()}catch(e){}};
+function pick(e){const f=e.target.files[0];if(!f)return;img=f;const p=$("prev");p.style.display="block";p.innerHTML=`<img src="${URL.createObjectURL(f)}">📷 ✔`;e.target.value=""}
+$("f1").onchange=pick;$("f2").onchange=pick;
+/* voice in */
+let dict=null,rec=null,on=false;const st=m=>{$("st").textContent=m||""};
+function setRec(v){on=v;$("mic").classList.toggle("rec",v);st(v?T().lis:"")}
+try{claude.use("dictation").then(d=>{dict=d;if(d){d.onFinal(({text})=>{$("in").value=($("in").value+" "+text).trim();viaVoice=true});d.onPartial(({text})=>{st("🎤 "+text)});d.onState(({state})=>{setRec(state=="listening");if(state!="listening"&&viaVoice&&$("in").value.trim())setTimeout(()=>{if(!busy)ask($("in").value)},400)})}}).catch(()=>{})}catch(e){}
+$("mic").onclick=()=>{
+ try{speechSynthesis.cancel()}catch(e){}
+ if(dict){if(on){dict.stop().catch(()=>{});return}
+  viaVoice=true;dict.start().catch(e=>{setRec(false);st(T().nov)});return}
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){st(T().nov);return}
+ if(on&&rec){rec.stop();return}
+ rec=new SR();rec.lang=lg=="mr"?"mr-IN":"hi-IN";rec.interimResults=false;
+ rec.onresult=e=>{$("in").value=($("in").value+" "+e.results[0][0].transcript).trim();viaVoice=true;setTimeout(()=>{if(!busy)ask($("in").value)},300)};
+ rec.onstart=()=>setRec(true);rec.onend=()=>setRec(false);rec.onerror=e=>{setRec(false);st(T().nov+" ("+(e.error||"")+")")};
+ try{rec.start()}catch(e){st(T().nov)}};
+/* location + notifications */
+$("gps").onclick=()=>{if(!navigator.geolocation){$("note").textContent=T().loc_no;return}
+ navigator.geolocation.getCurrentPosition(p=>{coords={lat:p.coords.latitude,lon:p.coords.longitude};if(!$("loc").value)$("loc").value=coords.lat.toFixed(2)+", "+coords.lon.toFixed(2);$("note").textContent=T().loc_ok},()=>{$("note").textContent=T().loc_no},{timeout:10000})};
+let nOn=false,last="";
+$("ntf").onclick=async()=>{try{const r=await Notification.requestPermission();if(r=="granted"){nOn=true;$("ntf").classList.add("on");$("note").textContent=T().nton;new Notification("Kissan 🌱",{body:T().tip})}else $("note").textContent=T().ntoff}catch(e){$("note").textContent=T().ntoff}};
+setInterval(()=>{if(!nOn)return;const d=new Date(),k=d.toDateString();if(d.getHours()==7&&d.getMinutes()==0&&last!=k){last=k;try{new Notification("Kissan 🌱",{body:T().tip+": "+T().chips[Math.floor(Math.random()*5)]})}catch(e){}}},30000);
+try{speechSynthesis.getVoices()}catch(e){}
+function getUser(){try{return localStorage.getItem("kissan:user")}catch(e){return null}}
+let otp=null,ph="";const gt=(m,h)=>lg=="mr"?m:h;
+function gateUI(){$("g1").style.display=otp?"none":"block";$("g2").style.display=otp?"block":"none";
+ $("gt").textContent=gt("शेतकरी मित्रांचे स्वागत! 🌾","किसान मित्रों का स्वागत! 🌾");
+ $("gs").textContent=otp?gt("तुमचा OTP खाली दाखवला आहे, तो टाका.","आपका OTP नीचे दिखाया गया है, उसे डालें।"):gt("सुरू करण्यासाठी मोबाइल नंबर टाका","शुरू करने के लिए मोबाइल नंबर डालें");
+ $("gsend").textContent=gt("OTP मिळवा","OTP पाएँ");$("gok").textContent=gt("तपासा आणि सुरू करा","जाँचें और शुरू करें");$("gback").textContent=gt("← नंबर बदला","← नंबर बदलें");
+ $("gotp").style.display=otp?"block":"none";$("gotp").textContent=otp?(gt("OTP: ","OTP: ")+otp):""}
+$("gm").onclick=()=>{lg="mr";ui();gateUI()};$("gh").onclick=()=>{lg="hi";ui();gateUI()};
+$("gsend").onclick=()=>{const v=$("gph").value.replace(/\D/g,"");if(!/^[6-9]\d{9}$/.test(v)){$("gerr").textContent=gt("कृपया १० अंकी बरोबर मोबाइल नंबर टाका","कृपया सही 10 अंकों का मोबाइल नंबर डालें");return}
+ ph=v;otp=String(1000+(crypto.getRandomValues(new Uint16Array(1))[0]%9000));$("gerr").textContent="";$("gin").value="";gateUI()};
+$("gok").onclick=()=>{if($("gin").value.trim()==otp){try{localStorage.setItem("kissan:user",ph)}catch(e){}K="kissan:chats:"+ph;$("gate").style.display="none";otp=null;newChat();about()}else $("gerr").textContent=gt("OTP चुकीचा आहे","OTP गलत है")};
+$("gback").onclick=()=>{otp=null;$("gerr").textContent="";gateUI()};
+function logout(){try{localStorage.removeItem("kissan:user")}catch(e){}K="kissan:chats";hist=[];otp=null;$("gph").value="";$("gate").style.display="flex";gateUI()}
+cur={id:"c"+Date.now(),t:""};ui();
+const u0=getUser();if(u0){K="kissan:chats:"+u0;$("gate").style.display="none"}else gateUI();
+</script>
+</body>
+</html>
